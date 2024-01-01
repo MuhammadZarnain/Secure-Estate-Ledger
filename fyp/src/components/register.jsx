@@ -2,7 +2,7 @@ import React,{useState}from 'react';
 import registervalidation from './registerValidate';
 
 import { useNavigate } from 'react-router-dom';
-import UserDashboard from './userDashboard';
+
 
 const SERVER_IP = 'http://localhost:5005';
 const Register=({ contract })=>{
@@ -173,7 +173,6 @@ const Register=({ contract })=>{
             <button onClick={async() =>await verifyCode()} className='w-full rounded-[40px] py-3 mt-8 bg-green-600 hover:bg-green-900 relative text-white'>Verify</button>
         </div> 
     </div>
-    {<UserDashboard  Name={name}/>}
     </div>
     </div>
   )
