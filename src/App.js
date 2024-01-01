@@ -1,6 +1,6 @@
 
 import Login from './components/login';
-import View from './components/register';
+import View from './components/register'; 
 import Header from './components/header'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { useState,useEffect } from 'react';
@@ -9,7 +9,7 @@ import Footer from './components/footer';
 import Home from './components/home';
 const conaddress = '0x5fbdb2315678afecb367f032d93f642f64180aa3'; 
 const ethers = require("ethers");
-
+import Connect_Wallet from './components/classes/Wallet';
 
 
 function App() {
@@ -19,37 +19,19 @@ function App() {
   const [contract, setContract] = useState(null);
 
   useEffect(() => {
-    // Function to connect to MetaMask
-    const connectMetaMask = async () => {
-      if (window.ethereum) {
-        try {
-          // Request MetaMask account access
-          await window.ethereum.request({ method: 'eth_requestAccounts' });
-          
-          // Create ethers provider and signer
-         const provider = new ethers.BrowserProvider(window.ethereum);
-         const signer = await provider.getSigner();
-          
-          // Create ethers contract instance
-          const contract = new ethers.Contract(conaddress,contABI.abi, signer);
+    
+    const [con_Wallet] = useState(new Connect_Wallet());
 
-          // Get the user's address
-          const address = await signer.getAddress();
-
-          setWeb3Provider(provider);
-          setUserAddress(address);
-          setContract(contract);
-        } catch (error) {
-          console.error('Error connecting to MetaMask:', error);
-        }
-      } else {
-        console.error('MetaMask not installed');
-      }
+    const handleConnectWallet = async () => {
+      await connectWallet.connectMetaMask();
+      // Access the connected wallet properties
+      console.log(con_Wallet.web3Provider, con_Wallet.userAddress, con_Wallet.contract);
     };
-
+    
     // Connect to MetaMask when the component mounts
     connectMetaMask();
   }, []);
+  
 
   return (
  
