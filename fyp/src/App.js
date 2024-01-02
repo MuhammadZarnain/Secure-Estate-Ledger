@@ -4,7 +4,7 @@ import View from './components/register';
 import Header from './components/header'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { useState,useEffect } from 'react';
-import contABI from './artifacts/contracts/UserAuthenticationManagement.sol/UserAuthenticationManagement.json';
+import contABI from './artifacts/contracts/UserManagement.sol/UserManagement.json';
 import Footer from './components/footer';
 import Home from './components/home';
 import UserDashboard from './components/userDashboard';

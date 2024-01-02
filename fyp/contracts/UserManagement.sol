@@ -1,7 +1,8 @@
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-contract UserAuthenticationManagement {
+contract UserManagement {
     struct User {
         string cnic;
         string name;
@@ -16,7 +17,9 @@ contract UserAuthenticationManagement {
 
     mapping(address => User) public users;
     mapping(string => address) emailToAddress;
-    mapping(address => string) addressToName; // New mapping to store names associated with addresses
+    mapping(address => string) addressToName;
+
+  
 
     function registerUser(
         string memory _CNIC,
@@ -27,10 +30,11 @@ contract UserAuthenticationManagement {
         string memory _password,
         string memory _permanentAddress,
         string memory _currentAddress
-    ) public {
+    ) external  {
 
         require(users[msg.sender].isregister == false, "User with this Ethereum Address already exists");
-
+        //require(emailToAddress[_email] == address(0), "User with this Email Address already exists");
+        
         User memory newUser = User({
             cnic: _CNIC,
             name: _name,
@@ -40,30 +44,31 @@ contract UserAuthenticationManagement {
             password: _password,
             permanentAddress: _permanentAddress,
             currentAddress: _currentAddress,
-            isregister: true
+            isregister: false
         });
 
         users[msg.sender] = newUser;
         emailToAddress[_email] = msg.sender;
-        addressToName[msg.sender] = _name; // Store the name associated with the Ethereum address
+        addressToName[msg.sender] = _name;
+       
+        
     }
 
-    function loginUser(string memory _email, string memory _password) public view returns (bool) {
-        address userAddress = emailToAddress[_email];
-        require(userAddress != address(0), "Email not found");
+    function loginUser(string memory _email, string memory _password) external {
+        require(keccak256(bytes(users[msg.sender].email)) == keccak256(bytes(_email)), "Email does not match");
+        require(keccak256(bytes(users[msg.sender].password)) == keccak256(bytes(_password)), "Password does not match");
 
-        User memory user = users[userAddress];
+        users[msg.sender].isregister = true;
 
-        // Note: In a real-world scenario, you should use a secure password hashing algorithm
-        return (keccak256(abi.encodePacked(_password)) == keccak256(abi.encodePacked(user.password)));
     }
-
     function getUser() public view returns (string memory, string memory, string memory, string memory) {
         User memory user = users[msg.sender];
-        return (user.cnic, user.name, user.email, user.password);
+        return (user.cnic,user.name, user.email, user.password);
     }
 
-    // New function to retrieve the name associated with an address
+     function logoutUser() external {
+        users[msg.sender].isregister = false;
+    }
     function getNameForAddress(address _userAddress) public view returns (string memory) {
         return addressToName[_userAddress];
     }

@@ -30,7 +30,7 @@ const UserDashboard = ({ contract, userAddress }) => {
     <div className="bg-white flex flex-col items-stretch">
     <div className="w-full max-md:max-w-full">
       <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-        <div className="flex flex-col items-stretch w-[16%] max-md:w-full max-md:ml-0">
+        <div className="hidden md:flex flex-col items-stretch w-[16%] max-md:w-full max-md:ml-0 ">
           <div className="flex grow flex-col items-stretch">
             
             <div className="justify-center items-start border-r-[color:var(--CoolGray-20,#DDE1E6)] border-l-[color:var(--CoolGray-20,#DDE1E6)] bg-white z-[1] flex mt-0 w-full flex-col px-4 py-12 border-r border-solid border-l">
@@ -40,7 +40,7 @@ const UserDashboard = ({ contract, userAddress }) => {
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/d9aeed7e9e64972bf23675492b3aebcb50f9f48c4bdbd90a90bdce10daca6111?"
                   className="aspect-square object-contain object-center w-6 fill-zinc-600 overflow-hidden shrink-0 max-w-full"
                 />
-                <div className="text-zinc-500 text-xl font-bold leading-6 grow whitespace-nowrap self-start">
+                <div className="text-zinc-500 text-xs font-bold leading-6 grow whitespace-nowrap self-start ">
                   {userName}
                 </div>
               </div>
@@ -143,9 +143,9 @@ const UserDashboard = ({ contract, userAddress }) => {
                   className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
                 />
               </div>
-              <div className="text-neutral-100 text-base font-medium leading-4 tracking-wide whitespace-nowrap justify-center items-center self-stretch bg-lime-800 mt-36 mb-5 px-16 py-2.5 rounded-[40px] max-md:mt-10 max-md:px-5">
+              <a href='/' className="text-neutral-100 text-base font-medium leading-4 tracking-wide whitespace-nowrap justify-center items-center self-stretch bg-lime-800 mt-36 mb-5 px-16 py-2.5 rounded-[40px] max-md:mt-10 max-md:px-5">
                 Log Out
-              </div>
+              </a>
             </div>
           </div>
         </div>

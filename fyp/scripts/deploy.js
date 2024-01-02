@@ -7,8 +7,8 @@ async function main() {
   /* const lockedAmount = hre.ethers.parseEther("0.001"); */
   const [deployer] =await hre.ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
-  const UserAuthenticationManagement = await hre.ethers.getContractFactory("UserAuthenticationManagement");
-  const receipt=await UserAuthenticationManagement.deploy();
+  const UserManagement = await hre.ethers.getContractFactory("UserManagement");
+  const receipt=await UserManagement.deploy();
   await receipt.waitForDeployment(); 
   console.log('Contract deployed to address:',receipt.target);
 
