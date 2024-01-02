@@ -55,7 +55,7 @@ export default function Login({contract, userAddress, setUserAddress}){
         <form className=' max-w-[400px] w-full rounded-[40px] mx-auto bg-white p-8' onSubmit={handleLogin}>
             <h2 className='text-4xl font-bold text-center py-4'>Login</h2>
             <div  className='flex flex-col mb-4'>
-                <label>CNIC/Email</label>
+                <label>Email</label>
                 <input className='border rounded-[40px] relative bg-gray-100 p-2' name='email' value={email} onChange={handleChange} type='email'/>
                 {errors.email && <span className='text-red-700'>{errors.email}</span>}
                 

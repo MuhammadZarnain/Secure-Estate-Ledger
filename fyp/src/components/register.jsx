@@ -1,6 +1,5 @@
 import React,{useState}from 'react';
 import registervalidation from './registerValidate';
-
 import { useNavigate } from 'react-router-dom';
 
 
@@ -155,7 +154,6 @@ const Register=({ contract })=>{
             <p className='text-center py-8'>Already have an account?<a href='/login'>Login Now</a></p>
         </form>
     </div>
-    
     </div>
     
     </div>:
