@@ -4,31 +4,8 @@ import image6 from "../assets/image 6.png"
 import image7 from "../assets/image 7.png"
 import chart from "../assets/chart.png"
 
-const AdminDashboard = ({ contract, userAddress }) => {
-  const [userName, setUserName] = useState('');
-
-  useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        if (contract) {
-          // Call the getUser function from the smart contract
-          const userDetails = await contract.getNameForAddress({ from: userAddress });
-
-          // Extract the name from the returned userDetails
-          const [, fetchedName] = userDetails;
-
-          // Set the userName state with the fetched name
-          setUserName(fetchedName);
-        } else {
-          console.error("Contract not deployed");
-        }
-      } catch (error) {
-        console.error('Error fetching user details:', error);
-      }
-    };
-
-    fetchUserName();
-  }, [contract, userAddress]);
+const AdminDashboard = () => {
+ 
   return (
     <div className="bg-white flex flex-col items-stretch">
       <div className="w-full max-md:max-w-full">
@@ -45,7 +22,7 @@ const AdminDashboard = ({ contract, userAddress }) => {
                     className="aspect-square object-contain object-center w-6 fill-zinc-600 overflow-hidden shrink-0 max-w-full"
                   />
                   <div className="text-zinc-500 text-xl font-bold leading-6 grow whitespace-nowrap self-start">
-                    {userName}
+                  
                   </div>
                 </div>
                 <div className="justify-center items-center self-stretch flex gap-3 mt-9 pl-10 pr-12 max-md:px-5">
@@ -135,7 +112,7 @@ const AdminDashboard = ({ contract, userAddress }) => {
                     className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
                   />
                   <div className="text-zinc-800 text-base font-medium leading-4 self-center grow whitespace-nowrap my-auto">
-                    Policies & Regulations
+                   <a href='/updatePolicy'> Policies & Regulations</a>
                   </div>
                 </div>
                 <div className="items-stretch self-stretch border-b-[color:var(--CoolGray-10,#F2F4F8)] flex gap-2 pl-2 pr-4 py-3 border-b border-solid">

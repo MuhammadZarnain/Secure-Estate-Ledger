@@ -32,6 +32,7 @@ export default function Login({contract, userAddress, setUserAddress}){
                       navigate('/Dashboard')
                     } else {
                       // Display an error if login fails
+                      
                       setErrors({ login: 'Invalid email or password' });
                     }
                
@@ -40,6 +41,7 @@ export default function Login({contract, userAddress, setUserAddress}){
                 }
                
             } catch (error) {
+                alert("Invalid email or password");
                 console.error('Error logging in user:', error);
             }
             };

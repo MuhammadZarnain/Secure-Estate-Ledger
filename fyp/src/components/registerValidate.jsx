@@ -8,6 +8,11 @@ function registervalidation(values){
     }else{
         error.name=""
     }
+    if(values.phone_number===""){
+        error.phone_number="phone number Should not be empty";
+    }else{
+        error.phone_number=""
+    }
     if(values.cnic===""){
         error.cnic="cnic Should not be empty";
     }else{
