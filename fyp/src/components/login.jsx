@@ -55,16 +55,16 @@ export default function Login({contract, userAddress, setUserAddress}){
 
     <div className='flex justify-center items-center h-full'>
         <form className=' max-w-[400px] w-full rounded-[40px] mx-auto bg-white p-8' onSubmit={handleLogin}>
-            <h2 className='text-4xl font-bold text-center py-4'>Login</h2>
+            <h2 className='text-4xl font-bold text-center py-4'>Welcome Back</h2>
             <div  className='flex flex-col mb-4'>
-                <label>Email</label>
-                <input className='border rounded-[40px] relative bg-gray-100 p-2' name='email' value={email} onChange={handleChange} type='email'/>
+                <label htmlFor='email'>Email</label>
+                <input id='email' className='border rounded-[40px] relative bg-gray-100 p-2' name='email' value={email} onChange={handleChange} type='email'/>
                 {errors.email && <span className='text-red-700'>{errors.email}</span>}
                 
             </div>
             <div className='flex flex-col mb-4'>
-                <label>Password</label>
-                <input className='border rounded-[40px] relative bg-gray-100 p-2' name='password' value={password} onChange={handleChange} type='password'/>
+                <label htmlFor='password'>Password</label>
+                <input id='password' className='border rounded-[40px] relative bg-gray-100 p-2' name='password' value={password} onChange={handleChange} type='password'/>
                 {errors.password && <span className='text-red-700'>{errors.password}</span>}
             </div>
             <p className=' flex items-center mt-2'><input className='mr-2' type='checkbox'/>Remember Me</p>

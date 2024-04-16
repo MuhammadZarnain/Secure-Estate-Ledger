@@ -4,6 +4,8 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import Register from './components/register.jsx';
 import AdminLogin from './components/adminLogin.jsx';
 import {BrowserRouter, MemoryRouter } from 'react-router-dom';
+import Login from './components/login';
+
 
 global.fetch = jest.fn(() =>
   Promise.resolve({
@@ -86,6 +88,7 @@ describe('Register Component', () => {
   // Add more test cases for form submission, API calls, etc.
 });
 
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
@@ -156,5 +159,77 @@ describe('AdminLogin component', () => {
     };
 
     fireEvent.submit(screen.getByText('Login'));
+  });
+});
+
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
+}));
+describe('Login Component', () => {
+  test('renders login form correctly', () => {
+    const { getByLabelText, getByText } = render(<Login />);
+
+    expect(screen.getByLabelText('Email')).toBeInTheDocument();
+    expect(screen.getByLabelText('Password')).toBeInTheDocument();
+    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.getByText("Don't have an account?")).toBeInTheDocument();
+  });
+
+  test('displays validation errors for invalid inputs', async () => {
+    const { getByLabelText, getByText, findByText } = render(<Login />);
+    const emailInput = screen.getByLabelText('Email');
+    const passwordInput = screen.getByLabelText('Password');
+    const loginButton = screen.getByText('Login');
+
+    fireEvent.click(loginButton); // Submit without filling in inputs
+
+    expect(await screen.findByText('Email Should not be empty')).toBeInTheDocument();
+    expect(await screen.findByText('password Should not be empty')).toBeInTheDocument();
+
+    fireEvent.change(emailInput, { target: { value: 'invalidemail' } });
+    fireEvent.change(passwordInput, { target: { value: 'short' } });
+    fireEvent.click(loginButton); // Submit with invalid inputs
+  });
+
+  test('logs in user with valid credentials', async () => {
+    const mockContract = {
+      loginUser: jest.fn().mockResolvedValue(true), // Mock loginUser to always return true
+    };
+    const mockSetUserAddress = jest.fn(); // Mock setUserAddress function
+
+    const { getByLabelText, getByText } = render(<Login />);
+    const emailInput = screen.getByLabelText('Email');
+    const passwordInput = screen.getByLabelText('Password');
+    const loginButton = screen.getByText('Login');
+
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'password123' } });
+    fireEvent.click(loginButton);
+  });
+
+  test('displays error for invalid credentials', async () => {
+    const mockContract = {
+      loginUser: jest.fn().mockResolvedValue(false), // Mock loginUser to always return false
+    };
+
+    // Mock the navigate function returned by useNavigate
+    const mockNavigate = jest.fn();
+    require('react-router-dom').useNavigate.mockReturnValue(mockNavigate);
+
+    // Mock window.alert
+    const mockAlert = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    const { getByLabelText, getByText, findByText } = render(<Login contract={mockContract} />);
+    const emailInput = screen.getByLabelText('Email');
+    const passwordInput = screen.getByLabelText('Password');
+    const loginButton = screen.getByText('Login');
+
+    fireEvent.change(emailInput, { target: { value: 'invalid@example.com' } });
+    fireEvent.change(passwordInput, { target: { value: 'invalidpassword' } });
+    fireEvent.click(loginButton);
+
+    expect(mockNavigate).not.toHaveBeenCalled(); // Ensure navigate function is not called
   });
 });

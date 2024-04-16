@@ -21,40 +21,45 @@ const Register=({ contract })=>{
     const [code, setCode] = useState("")
 
     async function sendCode(){
-        await fetch(SERVER_IP+'/api/send-code',{
-        method: 'POST',
-        headers: {
-          'Accept':'application/json',
-          'Content-Type':'application/json'
-        },
-        body: JSON.stringify({phone_number:phone_number})
-        }).then(response => {
-        console.log(response);
-        if(response.ok === true) {
-          window.alert("Verification code sent successfully")
-        }
-        else
-        window.alert("Oh no we have an error")
-      })
-      }
-      async function verifyCode(){
-        await fetch(SERVER_IP+'/api/verify-code',{
-            method: 'POST',
-            headers: {
-            'Accept':'application/json',
-            'Content-Type':'application/json'
-            },
-            body: JSON.stringify({phone_number:phone_number, code:code})
-            }).then(response => {
-            console.log(response);
+        try {
+            const response = await fetch(SERVER_IP+'/api/send-code',{
+                method: 'POST',
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({phone_number:phone_number})
+            });
             if(response.ok === true) {
-            window.alert("Number verified successfully")
-            navigate('/Dashboard')
+                window.alert("Verification code sent successfully")
+            } else {
+                window.alert("Oh no we have an error")
             }
-            else
-            window.alert("Oh no we have an error")
-        })
+        } catch (error) {
+           /* console.error('Error sending code:', error)*/;
         }
+    }
+    
+    async function verifyCode(){
+        try {
+            const response = await fetch(SERVER_IP+'/api/verify-code',{
+                method: 'POST',
+                headers: {
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({phone_number:phone_number, code:code})
+            });
+            if(response.ok === true) {
+                window.alert("Number verified successfully")
+                navigate('/Dashboard')
+            } else {
+                window.alert("Oh no we have an error")
+            }
+        } catch (error) {
+            console.error('Error verifying code:', error);
+        }
+    }
     
     const{name,fname,cnic,paddress,email,password,caddress} = state;
     const handleChange =(e) =>{
@@ -87,7 +92,7 @@ const Register=({ contract })=>{
                    setCodeSent(true);
                    
                    
-            }else{console.error('Contract not initialized');}
+            }else{/*console.error('Contract not initialized');*/}
           
          
         } catch (error) {

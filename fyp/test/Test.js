@@ -253,3 +253,84 @@ describe("LandRegistration", function () {
     ).to.be.revertedWith("You are not the owner of this land");
   });
 });
+
+describe("UserManagement contract", function () {
+  let UserManagement;
+  let userManagement;
+  let owner;
+
+  beforeEach(async function () {
+    UserManagement = await hre.ethers.getContractFactory("UserManagement");
+    userManagement = await UserManagement.deploy();
+      [owner] = await hre.ethers.getSigners();
+  });
+
+  it("Should register a new user", async function () {
+    await userManagement.registerUser(
+      "1234567890123",
+      "John Doe",
+      "John's Father",
+      "1234567890",
+      "john@example.com",
+      "password123",
+      "Permanent Address",
+      "Current Address"
+    );
+
+    const user = await userManagement.users(owner.address);
+    expect(user.isregister).to.equal(false);
+  });
+
+  it("Should log in an existing user", async function () {
+    await userManagement.registerUser(
+      "1234567890123",
+      "John Doe",
+      "John's Father",
+      "1234567890",
+      "john@example.com",
+      "password123",
+      "Permanent Address",
+      "Current Address"
+    );
+
+    await userManagement.loginUser("john@example.com", "password123");
+    const user = await userManagement.users(owner.address);
+    expect(user.isregister).to.equal(true);
+  });
+
+  it("Should log out a user", async function () {
+    await userManagement.registerUser(
+      "1234567890123",
+      "John Doe",
+      "John's Father",
+      "1234567890",
+      "john@example.com",
+      "password123",
+      "Permanent Address",
+      "Current Address"
+    );
+
+    await userManagement.loginUser("john@example.com", "password123");
+    await userManagement.logoutUser();
+    const user = await userManagement.users(owner.address);
+    expect(user.isregister).to.equal(false);
+  });
+
+  it("Should get user details", async function () {
+    await userManagement.registerUser(
+      "1234567890123",
+      "John Doe",
+      "John's Father",
+      "1234567890",
+      "john@example.com",
+      "password123",
+      "Permanent Address",
+      "Current Address"
+    );
+
+    const userDetails = await userManagement.getUser();
+    expect(userDetails[1]).to.equal("John Doe");
+    expect(userDetails[2]).to.equal("john@example.com");
+    expect(userDetails[3]).to.equal("password123");
+  });
+});
