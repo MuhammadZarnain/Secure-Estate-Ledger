@@ -5,6 +5,7 @@ import Register from './components/register.jsx';
 import AdminLogin from './components/adminLogin.jsx';
 import {BrowserRouter, MemoryRouter } from 'react-router-dom';
 import Login from './components/login';
+import Land_registration from './components/landRegistration';
 
 
 global.fetch = jest.fn(() =>
@@ -232,4 +233,55 @@ describe('Login Component', () => {
 
     expect(mockNavigate).not.toHaveBeenCalled(); // Ensure navigate function is not called
   });
+});
+
+describe('Land_registration Component', () => {
+  it('should render the registration form', () => {
+    render(
+        <Land_registration />
+    );
+
+    expect(screen.getByText('Registration')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Khasra Number')).toBeInTheDocument();
+    // Add more assertions for other form fields and labels
+  });
+
+  it('should submit the form with valid data', async () => {
+    const mockNavigate = jest.fn();
+    render(
+        <Land_registration/>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Khasra Number'), { target: { value: '12345' } });
+    // Simulate changes for other form fields
+
+    fireEvent.submit(screen.getByText('Continue'));
+
+  });
+
+  it('should display error messages for invalid input', async () => {
+    render(
+        <Land_registration />
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Khasra Number'), { target: { value: '' } });
+    // Simulate empty input for other required fields
+
+    fireEvent.submit(screen.getByText('Continue'));
+
+    // Add assertions for other error messages
+  });
+
+  it('should handle API errors gracefully', async () => {
+    // Mocking contract methods or API calls to simulate errors
+
+    render(
+        <Land_registration  />
+    );
+
+    fireEvent.submit(screen.getByText('Continue'));
+
+  });
+
+  // Add more test cases for edge cases, such as boundary values, validations, etc.
 });

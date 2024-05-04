@@ -68,13 +68,13 @@ return(
          <br/> <br/>
 <div className='flex flex-row mb-4 text-left'>
 <div className='flex flex-col'>
-        <label style={{ color: 'green' }}><b>Land ID</b></label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='landID' type='number' placeholder='Khasra Number' value={landID} onChange={handleChange}/>
+        <label htmlfor="landId" style={{ color: 'green' }}><b>Land ID</b></label>
+        <input id='landId' className='border rounded-[40px] bg-white p-2 text-left' name='landID' type='number' placeholder='Khasra Number' value={landID} onChange={handleChange}/>
      
     </div>
     <div className='flex flex-col mr-4 '>
-        <label style={{ color: 'green' }}><b>Full Name </b></label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='fname' type='text' placeholder='John Carter' value={fname} onChange={handleChange}/>
+        <label htmlFor='fname' style={{ color: 'green' }}><b>Full Name </b></label>
+        <input id='fname' className='border rounded-[40px] bg-white p-2 text-left' name='fname' type='text' placeholder='John Carter' value={fname} onChange={handleChange}/>
        
     </div>
     <br /> <br/>
@@ -87,30 +87,30 @@ return(
 </div>
 <div className='flex flex-row mb-4 text-left '>
     <div className='flex flex-col mr-4'>
-        <label style={{ color: 'green' }}><b>CNIC</b></label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='cnic' type='tel' placeholder='37725-12141109-7' value={cnic} onChange={handleChange}/>
+        <label htmlFor='cnic' style={{ color: 'green' }}><b>CNIC</b></label>
+        <input id='cnic' className='border rounded-[40px] bg-white p-2 text-left' name='cnic' type='tel' placeholder='37725-12141109-7' value={cnic} onChange={handleChange}/>
        
     </div>
     <div className='flex flex-col'>
-        <label style={{ color: 'green' }}><b>Size</b> </label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='size' type='text' placeholder='Square meters' value={size} onChange={handleChange}/>
+        <label htmlFor='size' style={{ color: 'green' }}><b>Size</b> </label>
+        <input id='size' className='border rounded-[40px] bg-white p-2 text-left' name='size' type='text' placeholder='Square meters' value={size} onChange={handleChange}/>
        
     </div>
     <div className='flex flex-col'>
-        <label style={{ color: 'green' }}><b>Location</b> </label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='location' type='text' placeholder='Street,Area' value={location} onChange={handleChange}/>
+        <label htmlFor='location' style={{ color: 'green' }}><b>Location</b> </label>
+        <input id='location' className='border rounded-[40px] bg-white p-2 text-left' name='location' type='text' placeholder='Street,Area' value={location} onChange={handleChange}/>
        
     </div>
 </div>
  <div  className='flex flex-col mb-4 text-left'>
-                <label style={{ color: 'green' }}><b>Current Address </b></label>
-                <input className='border rounded-[20px]  bg-white p-10 ' name='caddress'  type='text' placeholder='Hno,street,religion'value={caddress} onChange={handleChange}/>
+                <label htmlFor='caddress' style={{ color: 'green' }}><b>Current Address </b></label>
+                <input  id='caddress' className='border rounded-[20px]  bg-white p-10 ' name='caddress'  type='text' placeholder='Hno,street,religion'value={caddress} onChange={handleChange}/>
               
-                <label style={{ color: 'green' }}><b>Permanent Address</b></label>
-                <input className='border rounded-[20px]  bg-white p-10 ' name='paddress'  type='text' placeholder='Hno,street,religion' value={paddress} onChange={handleChange}/>
+                <label htmlFor='paddress' style={{ color: 'green' }}><b>Permanent Address</b></label>
+                <input  id='paddress' className='border rounded-[20px]  bg-white p-10 ' name='paddress'  type='text' placeholder='Hno,street,religion' value={paddress} onChange={handleChange}/>
               
-                <label style={{ color: 'green' }}><b> Email </b></label>
-                <input className='border rounded-[40px]  bg-white p-2 ' name='email'  type='text' placeholder='Johncarter@gmail.com' value={email} onChange={handleChange} />
+                <label htmlFor='email' style={{ color: 'green' }}><b> Email </b></label>
+                <input  id='email' className='border rounded-[40px]  bg-white p-2 ' name='email'  type='text' placeholder='Johncarter@gmail.com' value={email} onChange={handleChange} />
                
                 
             </div>
