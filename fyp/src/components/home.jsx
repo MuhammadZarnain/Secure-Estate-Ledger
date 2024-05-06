@@ -10,6 +10,7 @@ import house from '../assets/home-outline.png'
 import report from '../assets/Report.png'
 
 
+
 export default function Home(){
     return(
         <div className="bg-white flex flex-col">

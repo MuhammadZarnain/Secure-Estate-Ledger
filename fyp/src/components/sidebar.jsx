@@ -117,7 +117,7 @@ const Sidebar = ({ contract, userAddress }) => {
         className="aspect-square object-contain object-center w-6 overflow-hidden shrink-0 max-w-full"
       />
       <div className="text-zinc-800 text-base font-medium leading-4 self-center grow whitespace-nowrap my-auto">
-       <a href='/userinfo'>User Info</a>
+       <a href='/viewLandrecord'>View Land Records</a>
       </div>
     </div>
     <div className="items-stretch self-stretch border-b-[color:var(--CoolGray-10,#F2F4F8)] flex justify-between gap-2 px-2 py-3 border-b border-solid">

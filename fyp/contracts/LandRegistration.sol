@@ -19,6 +19,8 @@ contract LandRegistration is UserManagement{
 
     // Mapping to store land details by land ID
     mapping(uint256 => LandDetails) public landRegistry;
+    uint256 public landCounter; // Keeps track of the number of registered lands
+    uint256[] public registeredLandIds;
 
     // Event emitted when a new land is registered
    // event LandRegistered(uint256 indexed landId, address indexed owner);
@@ -61,12 +63,30 @@ contract LandRegistration is UserManagement{
             isRegister: true
 
         });
-
+        landCounter++; // Increment counter when a new land is registered
+        registeredLandIds.push(_Land_id); 
         // Store the new land details in the registry
         landRegistry[_Land_id] = newLand;
 
         // Emit an event
         //emit LandRegistered(landCounter, msg.sender);
+    }
+
+    function getAllLandDetails() external view returns (LandDetails[] memory) {
+        LandDetails[] memory allLands = new LandDetails[](landCounter);
+
+        uint256 index = 0; // Initialize a counter to fill the array with registered lands
+
+        // Loop through all registered land IDs to collect land details
+        for (uint256 i = 0; i < registeredLandIds.length; i++) {
+            uint256 landId = registeredLandIds[i]; // Retrieve the current land ID
+            if (landRegistry[landId].isRegister) { // Check if it's registered
+                allLands[index] = landRegistry[landId]; // Add it to the array
+                index++; // Increment index for the next registered land
+            }
+        }
+
+        return allLands; // Return the list of all registered lands
     }
 
     // Function to get land details by land ID
