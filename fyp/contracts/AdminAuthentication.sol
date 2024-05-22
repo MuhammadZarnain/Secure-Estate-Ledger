@@ -46,7 +46,7 @@ contract AdminAuthentication  {
   uint256 public nextPolicyId = 1;
 
   // Function to add a new policy, accessible only by admins
-  function addPolicy(string memory _title, string memory _description) external{
+  function addPolicy(string memory _title, string memory _description) external {
     policies[nextPolicyId] = Policy(_title, _description);
     nextPolicyId++;
   }

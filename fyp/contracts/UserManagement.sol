@@ -18,9 +18,15 @@ contract UserManagement {
     mapping(address => User) public users;
     mapping(string => address) emailToAddress;
     mapping(address => string) addressToName;
-
+    uint public totalUsers;
   
-
+ event UserRegistered(
+        address indexed userAddress,
+        string cnic,
+        string name,
+        string email
+    );
+   
     function registerUser(
         string memory _CNIC,
         string memory _name,
@@ -30,10 +36,8 @@ contract UserManagement {
         string memory _password,
         string memory _permanentAddress,
         string memory _currentAddress
-    ) external  {
-
-        require(users[msg.sender].isregister == false, "User with this Ethereum Address already exists");
-        //require(emailToAddress[_email] == address(0), "User with this Email Address already exists");
+    ) external {
+        require(!users[msg.sender].isregister, "User with this Ethereum Address already exists");
         
         User memory newUser = User({
             cnic: _CNIC,
@@ -44,15 +48,17 @@ contract UserManagement {
             password: _password,
             permanentAddress: _permanentAddress,
             currentAddress: _currentAddress,
-            isregister: false
+            isregister: true // Update isregister to true
         });
 
         users[msg.sender] = newUser;
         emailToAddress[_email] = msg.sender;
         addressToName[msg.sender] = _name;
-       
+        totalUsers++; // Increment totalUsers counter
         
+        emit UserRegistered(msg.sender, _CNIC, _name, _email);
     }
+
 
     function loginUser(string memory _email, string memory _password) external {
         require(keccak256(bytes(users[msg.sender].email)) == keccak256(bytes(_email)), "Email does not match");

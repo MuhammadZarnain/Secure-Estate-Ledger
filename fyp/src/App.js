@@ -56,8 +56,9 @@ function App() {
           // Create ethers provider and signer
          const provider = new ethers.BrowserProvider(window.ethereum);
          const providers = new ethers.JsonRpcProvider('http://localhost:8545')
-         const privateKey = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
-         const wallet = new ethers.Wallet(privateKey, providers);
+         /* const privateKey = '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80';
+         const wallet = new ethers.Wallet(privateKey, providers); */
+         const wallet= await providers.getSigner();
          const signer = await provider.getSigner();
       /*    const wallet = new ethers.Wallet(privateKey, providers);  */
          /* const Admincontract = new ethers.Contract(Adminconaddress,AdmincontABI.abi,wallet); */
@@ -81,9 +82,25 @@ function App() {
         console.error('MetaMask not installed');
       }
     };
-    connectMetaMask();
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', handleAccountsChanged);
+    }
+
+    return() => {
+      connectMetaMask();
+      if (window.ethereum) {
+        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+      }
+    }
+    
   },[]);
- 
+  function handleAccountsChanged(userAddress) {
+    if (userAddress.length > 0 && userAddress !== userAddress[0]) {
+      setUserAddress(userAddress[0]);
+    } else {
+      setUserAddress(null);
+    }
+  }
   
   
   
@@ -103,13 +120,13 @@ function App() {
                <Route path='/Dashboard' element= {<UserDashboard contract={usercontract} userAddress={userAddress}/>}/>
                <Route path='/AdminDashboard' element= {<AdminDashboard/>}/>
                <Route path='/LandRegistration' element= {<LandRegistration contract={landcontract} Usercontract={usercontract} userAddress={userAddress}/>}/>
-               <Route path='/pendingRequest' element={<PendingRequest />}/>
+               <Route path='/pendingRequest' element={<PendingRequest landContract={landcontract} />}/>
                <Route path='/Description' element= {<Description contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/Transfer' element= {<Transfer contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/uploaddoc' element={<UploadDocs contract={usercontract} userAddress={userAddress}/>}/>
                <Route path='/awaiting' element={<Awaiting contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/landcongrats' element={<Lcongrats contract={usercontract} userAddress={userAddress} />}/>
-               <Route path='/landTransfer' element={<LandTransfer contract={usercontract} userAddress={userAddress} />}/>
+               <Route path='/landTransfer' element={<LandTransfer landContract={landcontract} contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/transferDashboard' element={<Tdashboard contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/transferCongrats'element={<TransferCongrats contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/userinfo'element={<Userinfo contract={usercontract} userAddress={userAddress} />}/>
