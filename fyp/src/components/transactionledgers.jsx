@@ -10,6 +10,7 @@ const [state,setState]=useState({
   const [ownershipHistory, setOwnershipHistory] = useState([]);
   const [error, setError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const details=[];
 const{landId}=state;
   const handleInputChange = (e) => {
     setState(prev =>({...prev,[e.target.name]:[e.target.value]}))
@@ -24,9 +25,13 @@ const{landId}=state;
         console.log(ownershipHistory[0])
      if(usercontract)
         {
-        const userDetails=await usercontract.getUser(ownershipHistory[0]);
-        setUserDetails(userDetails);
-        console.log(userDetails);
+          for (let i = 0; i < ownershipHistory.length; i++) {
+          const userDetail = await usercontract.getUser(ownershipHistory[i]);
+          details.push(userDetail);
+          console.log(userDetail);
+        }
+        setUserDetails(details);
+        console.log(details)
         }else{
           console.error("contract not exist")
         }
@@ -45,11 +50,11 @@ const{landId}=state;
       <div className="w-full max-md:max-w-full">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch">
           <AdminSidebar />
-          <div className="bg-white flex flex-col items-stretch p-5">
-            <div className="w-full">
-              <div className="flex flex-col items-center">
+          <div className="bg-white flex flex-col p-5  ">
+            <div style={{ marginLeft: '7rem' }} className="w-full">
+              <div style={{ marginRight: '10rem' }} className="flex flex-col justify-center items-center">
                 <h2 className="text-2xl font-bold text-center mb-6">Ownership History</h2>
-                <div className="bg-white rounded-lg p-6 mt-6 mx-auto max-w-4xl">
+                <div   className="bg-white rounded-lg p-6 mt-6 mx-auto max-w-4xl">
                   <form
                     className="max-w-[900px] w-full rounded-[40px] mx-auto bg-gray-100 p-9"
                     onSubmit={handleSubmit}
@@ -72,7 +77,7 @@ const{landId}=state;
                     >
                       Continue
                     </button>
-                  </form>
+                  </form></div>
                   {error && (
   <>
     <p className="text-red-500">{error}</p>
@@ -82,47 +87,38 @@ const{landId}=state;
  {userDetails && ( // Check if userDetails is available
                     <div className="mt-4">
                       <h3 className="text-xl font-semibold mb-2">Owner Details:</h3>
-                      <ul className="list-disc pl-5">
-                        <li className="mb-1">
-                          <div>
-                            <label className="font-semibold">CNIC: </label>
-                            <span>{userDetails[0]}</span>
-                          </div>
-                          <div>
-                            <label className="font-semibold">Name: </label>
-                            <span>{userDetails[1]}</span>
-                          </div>
-                          <div>
-                            <label className="font-semibold">Father Name: </label>
-                            <span>{userDetails[2]}</span>
-                          </div>
-                          <div>
-                            <label className="font-semibold">Phone: </label>
-                            <span>{userDetails[3]}</span>
-                          </div>
-                          <div>
-                            <label className="font-semibold">Email: </label>
-                            <span>{userDetails[4]}</span>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  )}
-                  {ownershipHistory.length > 0 && (
-                    <div className="mt-4">
-                      <h3 className="text-xl font-semibold mb-2">Ownership History:</h3>
-                      <ul className="list-disc pl-5">
-                        {ownershipHistory.map((owner, index) => (
-                          <li key={index} className="mb-1">
-                           <div>
-            <label className="font-semibold">Owner Address: </label>
-            <span>{owner}</span>
-          </div>
-                          </li>
-                          
-                        ))}
-                      </ul>
-                    
+                      <table className="min-w-full border border-gray-200">
+                    <thead>
+                      <tr className="bg-gray-100 text-left">
+                        <th className="px-4 py-2 border border-gray-200">Owner Address</th>
+                        <th className="px-4 py-2 border border-gray-200">CNIC</th>
+                        <th className="px-4 py-2 border border-gray-200">Name</th>
+                        <th className="px-4 py-2 border border-gray-200">Father Name</th>
+                        <th className="px-4 py-2 border border-gray-200">Phone Number</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {ownershipHistory.map((owner, index) => (
+            <tr
+              key={index}
+              className="hover:bg-gray-50 cursor-pointer border border-gray-200 md:border-none block md:table-row"
+            >
+              <td className="px-4 py-2 border border-gray-200 block md:table-cell">{owner}</td>
+              {userDetails[index] ? (
+                <>
+                  <td className="px-4 py-2 border border-gray-200 block md:table-cell">{userDetails[index][0]}</td>
+                  <td className="px-4 py-2 border border-gray-200 block md:table-cell">{userDetails[index][1]}</td>
+                  <td className="px-4 py-2 border border-gray-200 block md:table-cell">{userDetails[index][2]}</td>
+                  <td className="px-4 py-2 border border-gray-200 block md:table-cell">{userDetails[index][3]}</td>
+                </>
+              ) : (
+                <td className="px-4 py-2 border border-gray-200 block md:table-cell" colSpan="4">Loading...</td>
+              )}
+            </tr>
+          ))}
+                     
+                    </tbody>
+                  </table>
                     </div>
                   )}
                 </div>
@@ -131,7 +127,7 @@ const{landId}=state;
           </div>
         </div>
       </div>
-    </div>
+    
   );
 };
 

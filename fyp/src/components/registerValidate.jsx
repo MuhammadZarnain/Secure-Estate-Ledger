@@ -5,22 +5,34 @@ function registervalidation(values){
     const password_pattern=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/
     if(values.name===""){
         error.name="Name Should not be empty";
-    }else{
+    }
+    else if (/\d/.test(values.name)) {
+        error.name = "Name should not contain numbers";}
+    else{
         error.name=""
     }
     if(values.phone_number===""){
         error.phone_number="phone number Should not be empty";
-    }else{
+    }else if (!/^\d{11}$/.test(values.phone_number)) {
+        error.phone_number = "Phone number should be 11 digits";
+      }
+    else{
         error.phone_number=""
     }
     if(values.cnic===""){
         error.cnic="cnic Should not be empty";
-    }else{
+    }
+    else if (!/^\d{5}-\d{7}-\d$/.test(values.cnic)) {
+        error.cnic = "CNIC should be in the format xxxxx-xxxxxxx-x";
+      }else{
         error.cnic=""
     }
     if(values.fname===""){
         error.fname="Fathername Should not be empty";
-    }else{
+    }else if (/\d/.test(values.fname)) {
+        error.fname = "Father's name should not contain numbers";
+      }
+    else{
         error.fname=""
     }
     if(values.address===""){

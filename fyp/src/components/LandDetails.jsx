@@ -7,9 +7,10 @@ const LandDetails = ({landContract, landId }) => {
     const [loading, setLoading] = useState(true);
     const [imageUrls, setImageUrls] = useState([]);
     const [selectedLand, setSelectedLand] = useState(null);
-  const [pinataApiKey, setPinataApiKey] = useState("c7ce592f91ef64cd9c24"); // Set your API key
-  const [pinataSecretKey, setPinataSecretKey] = useState("371b874d23c09fda20625ed30017824921f450bf710994be36f1678592539e9c"); // Set your secret key
-
+    const [pinataApiKey, setPinataApiKey] = useState("c7ce592f91ef64cd9c24"); // Set your API key
+    const [pinataSecretKey, setPinataSecretKey] = useState("371b874d23c09fda20625ed30017824921f450bf710994be36f1678592539e9c"); // Set your secret key
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currentImage, setCurrentImage] = useState('');
   
     useEffect(() => {
       const loadLandDetails = async () => {
@@ -68,6 +69,16 @@ const LandDetails = ({landContract, landId }) => {
       // Example: Automatically open images for a specific land when component mounts
       openImages('exampleLand');
     }, []);
+
+    const openModal = (imageUrl) => {
+      setCurrentImage(imageUrl);
+      setIsModalOpen(true);
+    };
+  
+    const closeModal = () => {
+      setIsModalOpen(false);
+      setCurrentImage('');
+    };
   
     if (loading) return <div>Loading...</div>;
   
@@ -122,18 +133,31 @@ const LandDetails = ({landContract, landId }) => {
             src={imageUrl}
             alt={`Land image ${idx}`}
             className="object-cover border rounded"
+            onClick={() => openModal(imageUrl)}
           />
         </div>
-         /*  <img
-            key={idx}
-            src={imageUrl}
-            alt={`Land image ${idx}`}
-            className="w-1/2 h-1/2 object-cover border rounded justify-center"
-          /> */
         ))}
       </div>
       </div>
     </div>
+
+    {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="relative">
+            <button
+              className="absolute top-2 right-2 text-white text-2xl"
+              onClick={closeModal}
+            >
+              &times;
+            </button>
+            <img
+              src={currentImage}
+              alt="Enlarged land document"
+              className="max-h-screen max-w-full"
+            />
+          </div>
+        </div>
+      )}
   </div>
     );
   };
