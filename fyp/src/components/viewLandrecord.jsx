@@ -85,4 +85,4 @@ const ViewLandrecord = ({ landContract }) => {
   );
 };
 
-export default ViewLandrecord;
+export default ViewLandrecord;  

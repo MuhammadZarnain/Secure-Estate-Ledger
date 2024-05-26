@@ -38,7 +38,7 @@ export default function AdminLogin({contract,userAddress}){
             try {
                 if(contract){
                     const isValidUser = await contract.login(userAddress,password.toString());
-
+                    console.log(isValidUser)
                     if (isValidUser) {
                       // Login successful
                       console.log('Login successful!');

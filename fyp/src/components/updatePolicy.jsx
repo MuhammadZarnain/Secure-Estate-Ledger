@@ -105,7 +105,7 @@ export const UpdatePolicy = ({contract}) => {
           </div>
           <button
             type="submit"
-            className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isAdding ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`bg-[#197902] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${isAdding ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={isAdding}
           >
             {isAdding ? 'Adding...' : 'Add Policy'}
@@ -119,7 +119,7 @@ export const UpdatePolicy = ({contract}) => {
             <ul className="list-disc list-inside">
               {policies.map((policy) => (
                 <li key={policy.id}>
-                  <strong>{policy.title}</strong>: {policy.description}
+                  <strong>{policy.title}</strong>:<span className="mt-2 break-words"> {policy.description}</span>
                 </li>
               ))}
             </ul>

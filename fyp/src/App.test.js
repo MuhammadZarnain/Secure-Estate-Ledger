@@ -6,6 +6,7 @@ import AdminLogin from './components/adminLogin.jsx';
 import {BrowserRouter, MemoryRouter } from 'react-router-dom';
 import Login from './components/login';
 import Land_registration from './components/landRegistration';
+import Land_Transfer from './components/landTransfer.jsx';
 
 
 global.fetch = jest.fn(() =>
@@ -283,5 +284,54 @@ describe('Land_registration Component', () => {
 
   });
 
+
+
   // Add more test cases for edge cases, such as boundary values, validations, etc.
+
+  
+describe('Land_Transfer Component', () => {
+  it('should render the transfer form', () => {
+    render(
+        <Land_Transfer/>
+    );
+
+    expect(screen.getByText('Transfer')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Khasra Number')).toBeInTheDocument();
+    // Add more assertions for other form fields and labels
+  });
+
+  it('should submit the form with assigned khasra number/Land ID', async () => {
+    const mockNavigate = jest.fn();
+    render(
+        <Land_Transfer/>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Khasra Number'), { target: { value: '12345' } });
+    // Simulate changes for other form fields
+
+    fireEvent.submit(screen.getByText('Continue'));
+
+  });
+
+  it('should display error messages for invalid input', async () => {
+    render(
+        <Land_Transfer />
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Khasra Number'), { target: { value: '' } });
+    // Simulate empty input for other required fields
+
+    fireEvent.submit(screen.getByText('Continue'));
+
+    // Add assertions for other error messages
+  });
+  
+
+
+
+
+
+
+  });
+  
 });

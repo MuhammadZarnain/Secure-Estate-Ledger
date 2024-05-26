@@ -16,6 +16,11 @@ contract LandRegistration {
         bool isRegister;
     }
 
+   struct OwnershipHistory {
+        uint Land_id;
+        address[] previousOwners;
+    }
+
     struct PendingRequest {
         uint Land_id;
         string fullName;
@@ -31,6 +36,7 @@ contract LandRegistration {
     }
 
     mapping(uint256 => LandDetails) public landRegistry;
+    mapping(uint256 => OwnershipHistory) public ownershipHistory;
     uint256 public landCounter;
     uint256[] public registeredLandIds;
     PendingRequest[] public pendingRequests;
@@ -177,6 +183,8 @@ contract LandRegistration {
     function _verifyTransferRequest(PendingRequest memory request) internal {
         address previousOwner = landRegistry[request.Land_id].owner;
 
+          ownershipHistory[request.Land_id].previousOwners.push(previousOwner);
+
         landRegistry[request.Land_id].owner = request.owner;
         landRegistry[request.Land_id].fullName = request.fullName;
         landRegistry[request.Land_id].cnic = request.cnic;
@@ -209,7 +217,32 @@ contract LandRegistration {
 
         return allLands;
     }
+function getOwnedLandDetails(address _owner) external view returns (LandDetails[] memory) {
+    uint256 ownedLandCount = 0;
 
+    // Count the number of lands owned by the specified address
+    for (uint256 i = 0; i < registeredLandIds.length; i++) {
+        uint256 landId = registeredLandIds[i];
+        if (landRegistry[landId].isRegister && landRegistry[landId].owner == _owner) {
+            ownedLandCount++;
+        }
+    }
+
+    // Create an array to store owned land details
+    LandDetails[] memory ownedLandDetails = new LandDetails[](ownedLandCount);
+
+    // Retrieve details of owned lands
+    uint256 index = 0;
+    for (uint256 i = 0; i < registeredLandIds.length; i++) {
+        uint256 landId = registeredLandIds[i];
+        if (landRegistry[landId].isRegister && landRegistry[landId].owner == _owner) {
+            ownedLandDetails[index] = landRegistry[landId];
+            index++;
+        }
+    }
+
+    return ownedLandDetails;
+}
     function getLandDetails(uint256 _landId) external view returns (
         string memory fullName,
         string memory email,
@@ -234,7 +267,9 @@ contract LandRegistration {
             land.owner
         );
     }
-
+ function getOwnershipHistory(uint256 _landId) external view returns (address[] memory) {
+        return ownershipHistory[_landId].previousOwners;
+    }
     function updateLandDetails(
         uint256 _landId,
         string memory _fullName,

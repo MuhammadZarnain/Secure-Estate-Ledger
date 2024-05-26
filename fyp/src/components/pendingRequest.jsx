@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { FaEye, FaCheck } from 'react-icons/fa';
 import AdminSidebar from './adminSidebar'
 import LandDetails from './LandDetails';
+import PendingInfo from './pendinginfo';
+
 const PendingRequest= ({landContract}) => {
   const [confirming, setConfirming] = useState(false);
   const [selectedLandId, setSelectedLandId] = useState(null);
+  const [selectedtype, setSelectedtype] = useState(null);
   const [pendingRequests, setPendingRequests] = useState([]);
 
 
@@ -35,8 +38,9 @@ const PendingRequest= ({landContract}) => {
     setConfirming(false);
   };
 
-  const handleViewDetails = (landId) => {
+  const handleViewDetails = (landId,requestType) => {
     setSelectedLandId(landId);
+    setSelectedtype(requestType)
   };
 
   return (
@@ -67,7 +71,7 @@ const PendingRequest= ({landContract}) => {
   <td className="border px-4 py-2 sm:w-1/6 md:w-1/6 lg:w-1/6">{request.owner}</td>
   <td className="border px-4 py-2 sm:w-1/6 md:w-1/6 lg:w-1/6">{request.requestType}</td>
   <td className="border px-4 py-2 sm:w-1/6 md:w-1/6 lg:w-1/6">
-    <button className="flex items-center justify-center text-blue-500" onClick={() => handleViewDetails(request.Land_id)}>
+    <button className="flex items-center justify-center text-blue-500" onClick={() => handleViewDetails(request.Land_id,request.requestType)}>
       <FaEye className="mr-1" /> View Detail
     </button>
   </td>
@@ -95,7 +99,7 @@ const PendingRequest= ({landContract}) => {
         ))}
       </tbody>
     </table>
-    {selectedLandId !== null && <LandDetails landContract={landContract} landId={selectedLandId} />}
+    {selectedLandId !== null && selectedtype ==='register'?<PendingInfo landContract={landContract} landId={selectedLandId} />:selectedLandId !== null && selectedtype ==='transfer'?<LandDetails landContract={landContract} landId={selectedLandId} />:null}
   </div>
 </div>
     </div>

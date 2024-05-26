@@ -1,77 +1,60 @@
-import React from 'react'
-import Sidebar from './sidebar'
-const demoPage = ({ contract, userAddress }) => {
+import React, { useEffect, useState } from 'react';
+import CardDataStats from './CardDataStats';
+import AdminSidebar from './adminSidebar';
+import ChartOne from './ChartOne';
+import ChartTwo from './ChartTwo';
+const UserDashboard = ({contract,landcontract,useraddress}) => {
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalLands, setTotalLands] = useState(0);
+  const [pendingRequestsCount, setPendingRequestsCount] = useState(0);
+
+  useEffect(() => {
+    const fetchContractData = async () => {
+      if (contract) {
+        const totalUsers = await contract.totalUsers();
+        setTotalUsers(parseInt(totalUsers));
+
+      } else {
+        console.error("Ethereum wallet is not connected");
+      }
+      if(landcontract){
+        const landCounter = await landcontract.landCounter();
+      setTotalLands(parseInt(landCounter));
+      const pendingRequests = await landcontract.getPendingRequests();
+      setPendingRequestsCount(pendingRequests.length);
+      }
+    };
+
+    fetchContractData();
+  }, [contract,landcontract]);
+ 
+
   return (
     <div className="bg-white flex flex-col items-stretch">
     <div className="w-full max-md:max-w-full">
-    <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-        <Sidebar contract={contract} userAddress={userAddress}/>
-        
-<div className='flex justify-center items-center h-full p-10'>
-<div className='relative w-full h-screen white'> 
-
-        <form className=' max-w-[900px] w-full rounded-[40px] mx-auto  bg-gray-100 p-9'>
-            <h2 className='text-2xl font-bold text-center py-'>Registration</h2>
-         <br/> <br/>
-<div className='flex flex-row mb-4 text-left'>
-<div className='flex flex-col'>
-        <label style={{ color: 'green' }}><b>Land ID</b></label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='landID' type='number' placeholder='Khasra Number' />
-       {/* {errors.landid && <span className='text-red-700'>{errors.landid}</span>}  */}
-    </div>
-    <div className='flex flex-col mr-4 '>
-        <label style={{ color: 'green' }}><b>Full Name </b></label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='fname' type='text' placeholder='John Carter' />
-        {/* {errors.fname && <span className='text-red-700'>{errors.fname}</span>} */}
-    </div>
-    <br /> <br/>
-    <div className='flex flex-col'>
-        <label style={{ color: 'green' }}><b>Father Name</b></label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='fathername' type='text' placeholder='John Carter'/>
-        {/* {errors.father_name && <span className='text-red-700'>{errors.father_name}</span>} */}
-    </div>
+      <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
+      <AdminSidebar/>
+      <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+        <a href='/userinfo'><CardDataStats title="Total User" total= {totalUsers} /> </a>
+        <a href='/userinfo'><CardDataStats title="New User" total={totalUsers} /> </a>
+        <a href='/viewlandrecord'> <CardDataStats title="Total Land" total={totalLands} /> </a>
+        <a href='/pendingRequest'>  <CardDataStats title="Pending Land" total={pendingRequestsCount} /> </a>
+      </div>   
+      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+        <ChartOne />      
+        <ChartTwo/>
+     </div>
+     
+      </div>
+      </div>
+      </div>
+      </div>
+     
     
-</div>
-<div className='flex flex-row mb-4 text-left '>
-    <div className='flex flex-col mr-4'>
-        <label style={{ color: 'green' }}><b>CNIC</b></label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='cnic' type='tel' placeholder='37725-12141109-7' />
-       {/*  {errors.cnic && <span className='text-red-700'>{errors.cnic}</span>} */}
-    </div>
-    <div className='flex flex-col'>
-        <label style={{ color: 'green' }}><b>Size</b> </label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='size' type='text' placeholder='Square meters' />
-       {/*  {errors.size && <span className='text-red-700'>{errors.size}</span>} */}
-    </div>
-    <div className='flex flex-col'>
-        <label style={{ color: 'green' }}><b>Location</b> </label>
-        <input className='border rounded-[40px] bg-white p-2 text-left' name='location' type='text' placeholder='Street,Area'/>
-       {/*  {errors.location && <span className='text-red-700'>{errors.location}</span>} */}
-    </div>
-</div>
- <div  className='flex flex-col mb-4 text-left'>
-                <label style={{ color: 'green' }}><b>Current Address </b></label>
-                <input className='border rounded-[20px]  bg-white p-10 ' name='caddress'  type='text' placeholder='Hno,street,religion'/>
-              {/*   {errors.taddress && <span className='text-red-700'>{errors.taddress}</span>} */}
-                <label style={{ color: 'green' }}><b>Permanent Address</b></label>
-                <input className='border rounded-[20px]  bg-white p-10 ' name='paddress'  type='text' placeholder='Hno,street,religion' />
-               {/*  {errors.paddress && <span className='text-red-700'>{errors.paddress}</span>} */}
-                <label style={{ color: 'green' }}><b> Email </b></label>
-                <input className='border rounded-[40px]  bg-white p-2 ' name='email'  type='text' placeholder='Johncarter@gmail.com'  />
-                {/* {errors.email && <span className='text-red-700'>{errors.email}</span>} */}
-                
-            </div>
-           
-            <button type='submit' className='w-full rounded-[20px] py-2 mt-8 bg-[#197902] hover:bg-green-900 relative text-white '>Continue</button>
-           
-        </form> 
-        
-    </div>
-</div>
-    </div>
-    </div>
-    </div>
-  )
-}
+      
+  );
+};
 
-export default demoPage
+
+export default UserDashboard;

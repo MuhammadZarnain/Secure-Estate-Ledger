@@ -11,6 +11,10 @@ import landcontractABI from './artifacts/contracts/LandRegistration.sol/LandRegi
 import AdmincontABI from './artifacts/contracts/AdminAuthentication.sol/AdminAuthentication.json';
 import Description from './components/description'
 import Transfer from './components/transfer'
+import FindUserInfo from './components/findUserInfo'
+import Demo from './components/demoPage'
+import OwnedLandDetails from './components/ownedLandDetails'
+import Demoretrive from './components/demoretrive'
 import UploadDocs from './components/uploadDoc'
 import ViewLandrecord from './components/viewLandrecord'
 import Userinfo from './components/userInfo';
@@ -19,13 +23,16 @@ import Lcongrats from './components/congralutions'
 import LandTransfer from './components/landTransfer';
 import Tdashboard from './components/TransferDashboard'
 import TransferCongrats from './components/TransferCongrats';
+import TransactionLedgers from './components/transactionledgers';
 import Policynews from './components/policynews';
 import Footer from './components/footer';
 import Home from './components/home';
 import UserDashboard from './components/userDashboard';
+import LandInfo from './components/findLandInfo';
 import AdminDashboard from './components/adminDashboard'
 import LandRegistration from './components/landRegistration';
 import PendingRequest from './components/pendingRequest';
+import TrackApproval from './components/trackApproval';
 const Userconaddress = '0x5fbdb2315678afecb367f032d93f642f64180aa3';  
 const landRegistrationadress= '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
 const Adminconaddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'; 
@@ -117,8 +124,10 @@ function App() {
                <Route path='/login' element= {<Login contract={usercontract} setUserAddress={setUserAddress} userAddress={userAddress}/>}/>
                <Route path='/adminlogin' element= {<AdminLogin contract={admincontract} userAddress={userAddress}  />}/>
                <Route path='/register' element= {<View contract={usercontract}  />}/>
-               <Route path='/Dashboard' element= {<UserDashboard contract={usercontract} userAddress={userAddress}/>}/>
-               <Route path='/AdminDashboard' element= {<AdminDashboard/>}/>
+               <Route path='/Dashboard' element= {<UserDashboard landContract={landcontract} contract={usercontract} userAddress={userAddress}/>}/>
+               <Route path='/AdminDashboard' element= {<AdminDashboard contract={usercontract} landcontract={landcontract} useraddress={userAddress}/>}/>
+               <Route path='/Demo' element= {<Demo contract={usercontract} landcontract={landcontract} useraddress={userAddress}/>}/>
+               <Route path='/Demoretrive' element= {<Demoretrive/>}/>
                <Route path='/LandRegistration' element= {<LandRegistration contract={landcontract} Usercontract={usercontract} userAddress={userAddress}/>}/>
                <Route path='/pendingRequest' element={<PendingRequest landContract={landcontract} />}/>
                <Route path='/Description' element= {<Description contract={usercontract} userAddress={userAddress} />}/>
@@ -127,11 +136,16 @@ function App() {
                <Route path='/awaiting' element={<Awaiting contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/landcongrats' element={<Lcongrats contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/landTransfer' element={<LandTransfer landContract={landcontract} contract={usercontract} userAddress={userAddress} />}/>
-               <Route path='/transferDashboard' element={<Tdashboard contract={usercontract} userAddress={userAddress} />}/>
+               <Route path='/transferDashboard' element={<Tdashboard landContract={landcontract} contract={usercontract} userAddress={userAddress} />}/>
+               <Route path='/OwnedLandDetails' element={<OwnedLandDetails landContract={landcontract}  userAddress={userAddress} />}/>
                <Route path='/transferCongrats'element={<TransferCongrats contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/userinfo'element={<Userinfo contract={usercontract} userAddress={userAddress} />}/>
                <Route path='/policyNewsLtr'element={<Policynews contract={usercontract} userAddress={userAddress} admin={admincontract}/>}/>
                <Route path='/viewLandRecord'element={<ViewLandrecord  landContract={landcontract} />}/>
+               <Route path='/findUser'element={<FindUserInfo  usercontract={usercontract}  />}/>
+               <Route path='/findland'element={<LandInfo  landContract={landcontract}  />}/>
+              <Route path='/transactionledgers'element={<TransactionLedgers  landContract={landcontract} usercontract={usercontract} />}/>
+              <Route path='/trackapproval'element={<TrackApproval  landContract={landcontract} userAddress={userAddress} contract={usercontract} />}/>
                
         </Routes>
         <Footer/>

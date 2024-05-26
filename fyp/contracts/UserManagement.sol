@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
@@ -19,6 +18,7 @@ contract UserManagement {
     mapping(string => address) emailToAddress;
     mapping(address => string) addressToName;
     uint public totalUsers;
+    address[] public registeredUsers;
   
  event UserRegistered(
         address indexed userAddress,
@@ -55,6 +55,7 @@ contract UserManagement {
         emailToAddress[_email] = msg.sender;
         addressToName[msg.sender] = _name;
         totalUsers++; // Increment totalUsers counter
+        registeredUsers.push(msg.sender);
         
         emit UserRegistered(msg.sender, _CNIC, _name, _email);
     }
@@ -67,10 +68,38 @@ contract UserManagement {
         users[msg.sender].isregister = true;
 
     }
-    function getUser() public view returns (string memory, string memory, string memory, string memory) {
-        User memory user = users[msg.sender];
-        return (user.cnic,user.name, user.email, user.password);
+     function getAllUsers() public view returns (User[] memory) {
+        User[] memory allUsers = new User[](totalUsers);
+        for (uint i = 0; i < totalUsers; i++) {
+            allUsers[i] = users[registeredUsers[i]];
+        }
+        return allUsers;
     }
+    function getUser(address _owner) public view returns (
+        string memory, 
+        string memory, 
+        string memory, 
+        string memory, 
+        string memory, 
+        string memory, 
+        string memory, 
+        string memory, 
+        bool
+    ) {
+        User memory user = users[_owner];
+        return (
+            user.cnic, 
+            user.name, 
+            user.fatherName, 
+            user.phoneNumber, 
+            user.email, 
+            user.password, 
+            user.permanentAddress, 
+            user.currentAddress, 
+            user.isregister
+        );
+    }
+    
 
      function logoutUser() external {
         users[msg.sender].isregister = false;
