@@ -1,52 +1,44 @@
-function registervalidation(values){
+const registervalidation = (values) => {
+    let errors = {};
 
-    let error={}
-    const email_pattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    const password_pattern=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/
-    if(values.name===""){
-        error.name="Name Should not be empty";
-    }else{
-        error.name=""
+    if (!values.name) {
+        errors.name = "Name is required";
+    } else if (/\d/.test(values.name)) {
+        errors.name = "Name should not contain numbers";}
+    else{
+        errors.name=""
     }
-    if(values.phone_number===""){
-        error.phone_number="phone number Should not be empty";
-    }else{
-        error.phone_number=""
+    if (!values.fname) {
+        errors.fname = "Father's name is required";
+    }else if (/\d/.test(values.fname)) {
+        errors.fname = "Father Name should not contain numbers";}
+    else{
+        errors.fname=""
     }
-    if(values.cnic===""){
-        error.cnic="cnic Should not be empty";
-    }else{
-        error.cnic=""
+    if (!values.cnic) {
+        errors.cnic = "CNIC is required";
+    } 
+    if (!values.phone_number) {
+        errors.phone_number = "Phone number is required";
+    } else if (values.phone_number.length <= 11) {
+        errors.phone_number = "Invalid Phone Number";
     }
-    if(values.fname===""){
-        error.fname="Fathername Should not be empty";
-    }else{
-        error.fname=""
+    if (!values.email) {
+        errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+        errors.email = "Invalid Email address ";
     }
-    if(values.address===""){
-        error.paddress="permanent address Should not be empty";
-    }else{
-        error.paddress=""
+    if (!values.password) {
+        errors.password = "Password is required";
+    } 
+    if (!values.paddress) {
+        errors.paddress = "Permanent address is required";
     }
-    if(values.caddress===""){
-        error.caddress="current address Should not be empty";
-    }else{
-        error.caddress=""
+    if (!values.caddress) {
+        errors.caddress = "Current address is required";
     }
-    if(values.email===""){
-        error.email="Email Should not be empty";
-    }else if(!email_pattern.test(values.email)){
-        error.email="Email didnot match"
-    }else{
-        error.email=""
-    }
-    if(values.password===""){
-        error.password="password Should not be empty";
-    }else if(!password_pattern.test(values.password)){
-        error.password="password didnot match"
-    }else{
-        error.password=""
-    }
-    return error;
-    }
-    export default registervalidation;
+
+    return errors;
+};
+
+export default registervalidation;

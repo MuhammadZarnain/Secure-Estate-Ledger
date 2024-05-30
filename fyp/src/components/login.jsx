@@ -51,7 +51,6 @@ export default function Login({contract, userAddress, setUserAddress}){
   return (
     <div className="relative w-full h-full bg-banner bg-cover">
     <div className='relative w-full h-screen bg-zinc-400/80 ]'>
-  {/*  <img className="absolute w-full h-full object-cover mix-blend-overlay" src={Imges} alt="banner"/>  */}
 
     <div className='flex justify-center items-center h-full'>
         <form className=' max-w-[400px] w-full rounded-[40px] mx-auto bg-white p-8' onSubmit={handleLogin}>

@@ -22,6 +22,10 @@ const LandRegistration = await hre.ethers.getContractFactory("LandRegistration")
 const rec1=await LandRegistration.deploy();
 await rec1.waitForDeployment(); 
 console.log('Contract deployed to address:',rec1.target);
+const LandTransfer = await hre.ethers.getContractFactory("LandTransfer");
+const rec12=await LandTransfer.deploy();
+await rec12.waitForDeployment(); 
+console.log('Contract deployed to address:',rec12.target);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

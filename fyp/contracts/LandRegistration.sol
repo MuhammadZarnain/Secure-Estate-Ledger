@@ -243,7 +243,7 @@ function getOwnedLandDetails(address _owner) external view returns (LandDetails[
 
     return ownedLandDetails;
 }
-    function getLandDetails(uint256 _landId) external view returns (
+    function getLandDetails(uint256 _landId) external view virtual returns (
         string memory fullName,
         string memory email,
         string memory fatherName,

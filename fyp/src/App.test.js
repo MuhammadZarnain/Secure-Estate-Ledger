@@ -66,22 +66,22 @@ describe('Register Component', () => {
     fireEvent.click(screen.getByText('Register'));
 
     await waitFor(() => {
-      expect(screen.getByText('Name Should not be empty')).toBeInTheDocument();
+      expect(screen.getByText('Name is required')).toBeInTheDocument();
     });
     await waitFor(() => {
-      expect(screen.getByText('Fathername Should not be empty')).toBeInTheDocument();
+      expect(screen.getByText("Father's name is required")).toBeInTheDocument();
     });
     await waitFor(() => {
-      expect(screen.getByText('cnic Should not be empty')).toBeInTheDocument();
+      expect(screen.getByText('CNIC is required')).toBeInTheDocument();
     });
     await waitFor(() => {
-      expect(screen.getByText('current address Should not be empty')).toBeInTheDocument();
+      expect(screen.getByText('Current address is required')).toBeInTheDocument();
     });
     await waitFor(() => {
-      expect(screen.getByText('Email Should not be empty')).toBeInTheDocument();
+      expect(screen.getByText('Email is required')).toBeInTheDocument();
     });
     await waitFor(() => {
-      expect(screen.getByText('password Should not be empty')).toBeInTheDocument();
+      expect(screen.getByText('Password is required')).toBeInTheDocument();
     });
     alertMock.mockRestore();
   });

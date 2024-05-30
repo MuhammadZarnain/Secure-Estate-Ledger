@@ -16,25 +16,25 @@ function transfervalidation(values){
         error.recipientCnic="cnic Should not be empty";
     }
     else if (!/^\d{5}-\d{7}-\d$/.test(values.recipientCnic)) {
-        error.recipientCnic = "CNIC should be in the format xxxxx-xxxxxxx-x";
+        error.recipientCnic = "Invalid CNIC ";
       }else{
         error.recipientCnic=""
     }
     if(values.fullName===""){ // father name 
         error.fullName="Fathername Should not be empty";
     }else if (/\d/.test(values.fullName)) {
-        error.fullName = "Father's name should not contain numbers";
+        error.fullName = "Name should not contain numbers";
       }
     else{
         error.fullName=""
     }
     if(values.permanentAddress===""){
-        error.permanentAddress="permanent address Should not be empty";
+        error.permanentAddress="address should not be empty";
     }else{
         error.permanentAddress=""
     }
     if(values.currentAddress===""){
-        error.currentAddress="current address Should not be empty";
+        error.currentAddress="address Should not be empty";
     }else{
         error.currentAddress=""
     }
@@ -46,7 +46,7 @@ function transfervalidation(values){
         error.email=""
     }
     if (values.useraddress === "") {
-        error.useraddress = "Recipient address should not be empty";
+        error.useraddress = "address should not be empty";
       } else if (!ethereum_address_pattern.test(values.useraddress)) {
         error.useraddress = "Invalid recipient address format";
       } else {

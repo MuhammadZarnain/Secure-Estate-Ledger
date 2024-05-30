@@ -15,7 +15,7 @@ const Register=({ contract })=>{
     caddress:"",
     });
     const navigate = useNavigate();
-    const[errors,setErrors]= useState({});
+    const [errors, setErrors] = useState({});
     const [phone_number,setPhoneNumber] = useState("");
     const [codeSent, setCodeSent] = useState(false);
     const [code, setCode] = useState("")
@@ -69,7 +69,8 @@ const Register=({ contract })=>{
     const handleRegistration = async (userData) => {
         userData.preventDefault();
        
-        setErrors(registervalidation(state));
+        const validationErrors = registervalidation({ ...state, phone_number });
+        setErrors(validationErrors);
         console.log(state);
         
         try {
@@ -103,66 +104,67 @@ const Register=({ contract })=>{
   return (
     !codeSent?
     <div className="relative w-full h-full bg-banner bg-cover">
-    
-    <div className='relative w-full h-full  bg-zinc-400/80'>
-    <div className='flex justify-center items-center h-full '>
-        <form className=' max-w-[700px]  w-screen mx-auto rounded-[40px] bg-white m-8 ' onSubmit={handleRegistration}>
-            <h2 className='text-2xl font-bold text-center py-8'>Registeration</h2>
-            <div className='flex justify-around mr-[50px]'>
-            <div  className='flex flex-col  '>
-                <label htmlFor="full-name" className='text-green-700'>Full Name</label>
-                <input id='full-name' className='border rounded-[40px]  relative bg-gray-100 p-2' name='name' value={name}type='text' onChange={handleChange} required/>
-                {errors.name && <span className='text-red-700'>{errors.name}</span>}
-            </div>
-            <div  className='flex flex-col '>
-                <label htmlFor="father-name" className='text-green-700'>Father Name</label>
-                <input id='father-name' className='border  rounded-[40px]  relative bg-gray-100 p-2' name='fname' value={fname} type='text'  onChange={handleChange} required/>
-                {errors.fname && <span className='text-red-700'>{errors.fname}</span>}
-            </div>
-            </div>
-            <div className='flex justify-around mr-[50px] py-2'>
-            <div  className='flex flex-col'>
-                <label htmlFor="cnic" className='text-green-700'>CNIC</label>
-                <input id='cnic' className='border rounded-[40px]  relative bg-gray-100 p-2' name='cnic' value={cnic} type='text'  onChange={handleChange} required/>
-                {errors.cnic&& <span className='text-red-700'>{errors.cnic}</span>}
-            </div>
-            <div  className='flex flex-col '>
-                <label htmlFor="phone-number" className='text-green-700'>Phone Number</label>
-                <input id='phone-number' className='border rounded-[40px] relative bg-gray-100 p-2' name='phone_number' onChange={(e) =>setPhoneNumber(e.target.value)} type='tel' required/>
-                
-                {errors.phone_number && <span className='text-red-700'>{errors.phone_number}</span>}
-            </div>
-            </div>
-            <div  className='flex flex-col ml-[65px] mr-[90px]  py-2'>
-                <label htmlFor="current-address" className='text-green-700'>Current Address</label>
-                <input id='current-address' className='border rounded-[40px]  relative bg-gray-100 p-2' name='caddress' type='textbox' value={caddress}  onChange={handleChange} required/>
-                {errors.caddress && <span className='text-red-700'>{errors.caddress}</span>}
-            </div>
-            <div  className='flex flex-col ml-[65px] mr-[90px] py-2'>
-                <label htmlFor="permanent-address" className='text-green-700'>Permanent Address</label>
-                <input id='permanent-address' className='border  rounded-[40px] relative bg-gray-100 p-2' name='paddress' type='textbox' value={paddress} onChange={handleChange} required/>
-                {errors.paddress && <span className='text-red-700'>{errors.paddress}</span>}
-            </div>
-            <div className='flex justify-around mr-[50px] py-2' >
-            <div  className='flex flex-col '>
-                <label  htmlFor="email" className='text-green-700'>Email</label>
-                <input id='email' className='border rounded-[40px]  relative bg-gray-100 p-2' name='email' type='email' value={email} onChange={handleChange} required/>
-                {errors.email && <span className='text-red-700'>{errors.email}</span>}
-            </div>
-            <div className='flex flex-col'>
-                <label htmlFor="password" className='text-green-700'>Password</label>
-                <input id='password' className='border rounded-[40px]  relative bg-gray-100 p-2' name='password' type='password' value={password}  onChange={handleChange} required/>
-                {errors.password && <span className='text-red-700'>{errors.password}</span>}
-            </div>
-            </div>
-            <p className=' flex items-center ml-[65px] mr-[90px] py-2'><input className='mr-2' type='checkbox'/>Remember Me</p>
-            <button type='submit'  className='w-[200px] rounded-[40px]  h-[40px] ml-[250px] mr-[180px]items-center bg-green-600 hover:bg-green-900  relative  text-white'>Register</button>
-            <p className='text-center py-10'>Already have an account?<a href='/login'>Login Now</a></p>
-        </form>
+    <div className="relative w-full h-full bg-zinc-400/80">
+        <div className="flex justify-center items-center h-full py-10">
+            <form className="max-w-[700px] w-full mx-auto rounded-[40px] bg-white p-4 md:p-8" onSubmit={handleRegistration}>
+                <h2 className="text-2xl font-bold text-center py-4 md:py-8">Registration</h2>
+                <div className="flex flex-wrap justify-between gap-4">
+                    <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)]">
+                        <label htmlFor="full-name" className="text-green-700">Full Name</label>
+                        <input id="full-name" className="border rounded-[40px] bg-gray-100 p-2" name="name" value={name} type="text" onChange={handleChange}  />
+                        {errors.name && <span className="text-red-700">{errors.name}</span>}
+                    </div>
+                    <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)]">
+                        <label htmlFor="father-name" className="text-green-700">Father Name</label>
+                        <input id="father-name" className="border rounded-[40px] bg-gray-100 p-2" name="fname" value={fname} type="text" onChange={handleChange} />
+                        {errors.fname && <span className="text-red-700">{errors.fname}</span>}
+                    </div>
+                </div>
+                <div className="flex flex-wrap justify-between gap-4 py-2">
+                    <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)]">
+                        <label htmlFor="cnic" className="text-green-700">CNIC</label>
+                        <input id="cnic" className="border rounded-[40px] bg-gray-100 p-2" name="cnic" value={cnic} type="text" onChange={handleChange}  />
+                        {errors.cnic && <span className="text-red-700">{errors.cnic}</span>}
+                    </div>
+                    <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)]">
+                        <label htmlFor="phone-number" className="text-green-700">Phone Number</label>
+                        <input id="phone-number" className="border rounded-[40px] bg-gray-100 p-2" name="phone_number" onChange={(e) => setPhoneNumber(e.target.value)} type="tel"  />
+                        {errors.phone_number && <span className="text-red-700">{errors.phone_number}</span>}
+                    </div>
+                </div>
+                <div className="flex flex-col py-2">
+                    <label htmlFor="current-address" className="text-green-700">Current Address</label>
+                    <input id="current-address" className="border rounded-[40px] bg-gray-100 p-2" name="caddress" type="text" value={caddress} onChange={handleChange}  />
+                    {errors.caddress && <span className="text-red-700">{errors.caddress}</span>}
+                </div>
+                <div className="flex flex-col py-2">
+                    <label htmlFor="permanent-address" className="text-green-700">Permanent Address</label>
+                    <input id="permanent-address" className="border rounded-[40px] bg-gray-100 p-2" name="paddress" type="text" value={paddress} onChange={handleChange}  />
+                    {errors.paddress && <span className="text-red-700">{errors.paddress}</span>}
+                </div>
+                <div className="flex flex-wrap justify-between gap-4 py-2">
+                    <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)]">
+                        <label htmlFor="email" className="text-green-700">Email</label>
+                        <input id="email" className="border rounded-[40px] bg-gray-100 p-2" name="email" type="email" value={email} onChange={handleChange}  />
+                        {errors.email && <span className="text-red-700">{errors.email}</span>}
+                    </div>
+                    <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)]">
+                        <label htmlFor="password" className="text-green-700">Password</label>
+                        <input id="password" className="border rounded-[40px] bg-gray-100 p-2" name="password" type="password" value={password} onChange={handleChange}  />
+                        {errors.password && <span className="text-red-700">{errors.password}</span>}
+                    </div>
+                </div>
+                <p className="flex items-center py-2">
+                    <input className="mr-2" type="checkbox" />Remember Me
+                </p>
+                <button type="submit" className="w-full md:w-[200px] rounded-[40px] h-[40px] bg-green-600 hover:bg-green-900 text-white mx-auto block">Register</button>
+                <p className="text-center py-10">Already have an account?<a href="/login">Login Now</a></p>
+            </form>
+        </div>
     </div>
-    </div>
+</div>
     
-    </div>:
+    :
     <div className="relative w-full h-full bg-banner bg-cover">
     <div className='relative w-full h-screen bg-zinc-400/80 ]'>
     <div className='flex justify-center items-center h-full'>

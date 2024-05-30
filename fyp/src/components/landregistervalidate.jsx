@@ -46,11 +46,12 @@ function landregistervalidation(values){
     }
     if (values.size === "") {
         error.size = "Size should not be empty";
-      } else if (!/^\d+(\.\d+)?$/.test(values.size)) {
-        error.size = "Invalid size format";
-      } else {
+    } else if (!/^\d+(\.\d+)?\s*(sq meter|marla)$/.test(values.size)) {
+        error.size = "Invalid size format.'";
+    } else {
         error.size = "";
-      }
+    }
+
       if (values.location === "") {
         error.location = "Location should not be empty";
       } else {
